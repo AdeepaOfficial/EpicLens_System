@@ -1,0 +1,22 @@
+# Environment and configuration secrets
+.env
+config/config.local.php
+
+# OS metadata
+.DS_Store
+Thumbs.db
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Logs and cache
+*.log
+logs/
+cache/
+
+# Vendor and dependencies
+vendor/
+node_modules/

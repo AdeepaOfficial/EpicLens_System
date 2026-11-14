@@ -1,42 +1,95 @@
-# EpicLens System
+# EpicLens System - Campus Event Equipment Tracking Platform
 
-EpicLens System is a web application built using **HTML5, CSS3, JavaScript, PHP, and MySQL**.
+A secure, modern, responsive web application for managing campus event equipment lending and return lifecycles.
 
-## Architecture & Tech Stack
-- **Frontend**: HTML5, CSS3, Modern JavaScript (ES6+)
-- **Backend**: PHP (Modular Object-Oriented Architecture & REST APIs)
-- **Database**: MySQL (Relational Schema & Optimized Queries)
-- **Quality Assurance**: Automated & Cross-browser Testing, Debug Suites
-- **DevOps**: Git Flow Branching Strategy, CI/CD-ready structure
+Built with **HTML5, Modern Vanilla CSS3, ES6 JavaScript, PHP 8+, and MySQL (via PDO)**.
 
-## Project Structure
+---
+
+## 🚀 Key Features & Highlights
+
+- **4-Stage Real-World Lending Workflow**:
+  1. *Check-in from Owner* (`Not Received Yet` &rarr; `Received`)
+  2. *Assign Event Crew Member* (Equipment marked In-Use)
+  3. *Crew Hand-In* (Returned to team custody, condition logged)
+  4. *Final Return to Student Owner* (`Received` &rarr; `Returned`)
+- **Strict 3 Event Statuses**: `Not Received Yet`, `Received`, `Returned`.
+- **Permanent Category Item Codes**: Unique sequential prefixes (`CM001`, `TP002`, `LN003`) with zero recycling of deleted IDs.
+- **Enterprise Security**:
+  - Global CSRF token protection on all state-changing actions.
+  - Hardened sessions (`HttpOnly`, `SameSite=Lax`, strict mode).
+  - Password hashing with `PASSWORD_DEFAULT` (bcrypt).
+  - Zero hardcoded secrets (configured via `.env`).
+- **Privacy First**: Zero student or sample data committed to version control.
+- **Responsive Modern UI**:
+  - Collapsible mobile navigation drawer.
+  - Live table search with debounced filtering.
+  - Interactive item selection previews.
+  - Printable audit vouchers.
+
+---
+
+## 📁 Project Structure
+
 ```text
 EpicLens_System/
-├── config/             # Database and environment configurations
-├── database/           # SQL schema definitions and migrations
-├── docs/               # Technical specs and branching documentation
-├── public/             # Web server document root (HTML/CSS/JS entry point)
+├── config/
+│   ├── database.php        # PDO connection, environment loader & code sequences
+│   └── .env.example        # Environment configuration template
+├── database/
+│   ├── schema.sql          # Clean DDL (zero personal/sample data)
+│   └── migrate.php         # CLI schema migration runner
+├── docs/
+│   ├── BRANCHING_STRATEGY.md # Git Flow branch rules
+│   └── SYSTEM_ARCHITECTURE.md# Architecture & security comparisons
+├── includes/
+│   ├── auth.php            # Session guards & role-based permissions
+│   ├── csrf.php            # CSRF token generator & validator
+│   ├── helpers.php         # Sanitization & UI presenters
+│   ├── header.php          # Responsive topbar & layout header
+│   ├── sidebar.php         # Role-aware navigation sidebar
+│   └── footer.php          # Modals & script inclusions
+├── public/
 │   ├── assets/
-│   │   ├── css/
-│   │   └── js/
-│   └── index.php
-├── src/                # Backend application code (Controllers, Models)
-├── .gitignore          # Git exclusion rules
-└── README.md           # Project documentation
+│   │   ├── css/style.css   # Modern CSS design system
+│   │   └── js/script.js    # Interactive UI controllers
+│   ├── dashboard.php       # Role-adaptive status dashboard
+│   ├── receive.php         # Check-in gear from student owners
+│   ├── return.php          # 3-step crew and owner returns
+│   ├── equipment.php       # Equipment catalog & event reset
+│   ├── equipment_add.php   # Register new equipment with code preview
+│   ├── equipment_edit.php  # Edit equipment master records
+│   ├── equipment_delete.php# Secure POST deletion handler
+│   ├── staff.php           # Staff account management
+│   ├── transactions.php    # Audit history with search & date filters
+│   ├── transaction_view.php# Printable transaction voucher
+│   ├── setup.php           # First-time database & admin wizard
+│   ├── login.php           # Secure login & onboarding
+│   ├── logout.php          # Session termination
+│   └── index.php           # Entry point redirector
+├── .gitignore              # Enforces exclusion of .env, dumps, private data
+└── README.md               # Documentation
 ```
 
-## Branching Model
-Development strictly follows the Git Flow branching model outlined in [docs/BRANCHING_STRATEGY.md](docs/BRANCHING_STRATEGY.md).
-- `main` — Production release branch
-- `develop` — Active development and integration branch
-- `feature/*` — Isolated feature branches
-- `bugfix/*` — Bug and issue resolution branches
+---
 
-## Team Roles
-- **CEO**: Project supervision and coordination
-- **UX/UI Designer**: User experience, wireframes, and design system
-- **Frontend Developer**: HTML, CSS, JavaScript interface implementation
-- **Backend Developer**: PHP application logic, session management, and APIs
-- **Database Engineer**: MySQL relational schema and queries
-- **QA Engineer**: Test execution, verification, and bug tracking
-- **DevOps Engineer**: Version control, branch policies, and GitHub deployment
+## 🛠️ Quick Start & Setup
+
+1. **Configure Environment**:
+   ```bash
+   cp config/.env.example .env
+   # Edit .env with your MySQL database credentials
+   ```
+
+2. **Initialize Database**:
+   - **Option A (Browser Wizard)**: Navigate to `public/setup.php` and fill in the initial administrator details.
+   - **Option B (CLI)**:
+     ```bash
+     php database/migrate.php
+     ```
+
+3. **Serve Application**:
+   Point your web server (Apache/Nginx/PHP built-in) to the project or `public/` directory:
+   ```bash
+   php -S 127.0.0.1:8000 -t public
+   ```

@@ -1,10 +1,22 @@
-# Environment and configuration secrets
+# Environment and secrets
 .env
+.env.*
+!.env.example
 config/config.local.php
+
+# User & Sample Data Protection (NEVER push user data or sample dumps to GitHub)
+data/
+*.sql.bak
+*sample*.sql
+*user*.csv
+*dump*.sql
+database/seeds_private.sql
+database/sample_data.sql
 
 # OS metadata
 .DS_Store
 Thumbs.db
+ehthumbs.db
 
 # IDE and Editor files
 .vscode/
@@ -17,6 +29,6 @@ Thumbs.db
 logs/
 cache/
 
-# Vendor and dependencies
+# Composer & Node dependencies
 vendor/
 node_modules/
